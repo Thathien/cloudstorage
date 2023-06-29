@@ -18,7 +18,7 @@ public class UsersServices {
 	private HashService hashService;
 
 	public Users getByUsername(String username) {
-		return (Users) usersMapper.findByUsername(username);
+		return usersMapper.findByUsername(username);
 	}
 
 	public int addUsers(Users users) {
@@ -31,12 +31,9 @@ public class UsersServices {
 	}
 
 	public String validationSignup(String username) {
-		String regularExpression = "^[A-Za-z][A-Za-z0-9_]{7,29}$";
 		String error = "";
 		if (username == null || username.isBlank() || username.isEmpty()) {
 			error = "Username can not null, blank, emty";
-		} else if (!username.matches(regularExpression)) {
-			error = "User invalid";
 		} else if (getByUsername(username) != null) {
 			error = "Username already exists, please enter another user";
 		}

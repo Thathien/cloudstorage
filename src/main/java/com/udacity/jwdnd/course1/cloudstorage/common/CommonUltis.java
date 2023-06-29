@@ -4,6 +4,7 @@ import java.security.SecureRandom;
 import java.util.Base64;
 
 public class CommonUltis {
+
 	/* Ramdom Encode using base64 */
 	public static String ramdomEncodeBase64() {
 		SecureRandom random = new SecureRandom();
