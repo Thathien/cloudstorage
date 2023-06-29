@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	private static final String[] AUTH_WHITELIST = { "/css/", "/js/**", "/signup" };
+	private static final String[] AUTH_WHITELIST = { "/css/**", "/js/**", "/signup" };
 
 	protected void configure(HttpSecurity http) throws Exception {
 		
@@ -39,5 +39,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        web.ignoring().antMatchers("/h2-console/**");
 	        
 	    }
-
 }
