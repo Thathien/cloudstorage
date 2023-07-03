@@ -17,16 +17,18 @@ public class FilesUploadServices {
 	@Autowired
 	FilesUploadMapper filesSUploadMapper;
 
-	List<FilesUpload> findAllFiles(Integer userId) {
+	public List<FilesUpload> findAllFiles(Integer userId) {
 		return filesSUploadMapper.findAllFiles(userId);
 	}
 
 	public int addFiles(MultipartFile file, Integer userId) throws IOException {
-		String filesName = CommonUltis.getURLFiles(file);
-		String contentType = file.getContentType();
-		String filesSize = String.valueOf(file.getSize());
-		byte[] fileData = file.getBytes();
-		return filesSUploadMapper.addFiles(filesName, contentType, filesSize, userId, fileData);
+		FilesUpload filesUpload = new FilesUpload();
+		filesUpload.setFileName(CommonUltis.getURLFiles(file));
+		filesUpload.setContentType(file.getContentType());
+		filesUpload.setFileSize(String.valueOf(file.getSize()));
+		filesUpload.setFileData(file.getBytes());
+		filesUpload.setUserId(userId);
+		return filesSUploadMapper.addFiles(filesUpload);
 	}
 
 	public int deleteFileById(Integer fileId, Integer userId) {
@@ -35,6 +37,10 @@ public class FilesUploadServices {
 
 	public FilesUpload findOneFile(MultipartFile files, Integer userId) {
 		return filesSUploadMapper.findOneFile(CommonUltis.getURLFiles(files), userId);
+	}
+	
+	public FilesUpload getFileById(Integer fileId, Integer userId) {
+		return filesSUploadMapper.findByUserId(fileId, userId);
 	}
 
 }

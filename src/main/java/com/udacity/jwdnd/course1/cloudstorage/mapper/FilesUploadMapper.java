@@ -22,7 +22,7 @@ public interface  FilesUploadMapper {
     FilesUpload findByUserId(Integer fileId, Integer userId);
 
     @Insert("INSERT INTO FILES (filename, contenttype, filesize, userid, filedata) VALUES(#{fileName}, #{contentType}, #{fileSize}, #{userId}, #{fileData})")
-    int addFiles(String filename, String contenttype, String filesize, Integer userId, byte [] fileData);
+    int addFiles(FilesUpload filesUpload);
 
     @Delete("DELETE FROM FILES WHERE fileId = #{fileId} AND userid = #{userId}")
     int deleteById(Integer fileId, Integer userId);

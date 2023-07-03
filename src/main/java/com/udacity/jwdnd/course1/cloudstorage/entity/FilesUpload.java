@@ -10,10 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FilesUpload {
-    private Integer filesId;
-    private String filesName;
+    private Integer fileId;
+    private String fileName;
     private String contentType;
-    private String filesSize;
+    private String fileSize;
     private Integer userId;
     private byte[] fileData;
 }
