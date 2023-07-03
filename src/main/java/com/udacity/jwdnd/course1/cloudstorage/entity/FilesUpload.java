@@ -1,7 +1,5 @@
 package com.udacity.jwdnd.course1.cloudstorage.entity;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -24,7 +24,7 @@ public class AuthenticationProviderServices implements AuthenticationProvider {
 	@Autowired
 	private HashService hashService;
 
-	// Get source from https://www.baeldung.com/spring-security-authentication-provider
+
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 

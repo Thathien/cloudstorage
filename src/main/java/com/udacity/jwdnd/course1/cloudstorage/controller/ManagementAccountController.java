@@ -7,10 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.udacity.jwdnd.course1.cloudstorage.common.CommonUltis;
 import com.udacity.jwdnd.course1.cloudstorage.entity.Users;
 import com.udacity.jwdnd.course1.cloudstorage.services.UsersServices;
@@ -27,7 +24,7 @@ public class ManagementAccountController {
 	}
 
 	@PostMapping("/signup")
-	public String doSignup(Users users, RedirectAttributes redirectAttributes, Model model) {
+	public String doSignup(Users users, Model model) {
 		String error = "";
 		if (CommonUltis.isValidString(users.getFirstName()) && CommonUltis.isValidString(users.getLastName())
 				&& CommonUltis.isValidString(users.getPassword()) && CommonUltis.isValidString(users.getUsername())) {
@@ -47,7 +44,6 @@ public class ManagementAccountController {
 			model.addAttribute("errorSignup", error);
 			return "signup";
 		}
-		redirectAttributes.addFlashAttribute("signupSuccess", true);
 		return "redirect:/signup?success";
 	}
 	

@@ -3,6 +3,8 @@ package com.udacity.jwdnd.course1.cloudstorage.common;
 import java.security.SecureRandom;
 import java.util.Base64;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class CommonUltis {
 
 	/* Ramdom Encode using base64 */
@@ -19,5 +21,11 @@ public class CommonUltis {
 			return false;
 		}
 		return true;
+	}
+	
+	public static String getURLFiles(MultipartFile files) {
+        String fileName = files.getOriginalFilename();
+        int startIndex = fileName.replaceAll("\\\\", "/").lastIndexOf("/");
+        return fileName.substring(startIndex + 1);
 	}
 }

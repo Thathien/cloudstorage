@@ -10,35 +10,32 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import com.udacity.jwdnd.course1.cloudstorage.services.AuthenticationProviderServices;
 
+import lombok.AllArgsConstructor;
+
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	private AuthenticationProviderServices authenticationProviderServices;
-	
+
 	private static final String[] AUTH_WHITELIST = { "/css/**", "/js/**", "/signup" };
 
 	protected void configure(HttpSecurity http) throws Exception {
-		
-		// Accept URL which have path /css/, js/,/signup
-        http.authorizeRequests(requests -> requests
-                .antMatchers(AUTH_WHITELIST).permitAll()
-                .anyRequest().authenticated());
 
-        // Form login
-        http.formLogin(login -> login.loginPage("/login")
-        		.permitAll().defaultSuccessUrl("/home", true));
+		http.authorizeRequests(
+				requests -> requests.antMatchers(AUTH_WHITELIST).permitAll().anyRequest().authenticated());
 
-        // Logout
-        http.logout(logout -> logout
-                .logoutUrl("/logout")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/login?logout").permitAll());
-        
-        // Disabled CSRF protection
-        http.csrf().disable();
+		// Form login
+		http.formLogin(login -> login.loginPage("/login").permitAll().defaultSuccessUrl("/home", true));
+
+		// Logout
+		http.logout(logout -> logout.logoutUrl("/logout").invalidateHttpSession(true).deleteCookies("JSESSIONID")
+				.logoutSuccessUrl("/login?logout").permitAll());
+
+		// Disabled CSRF protection
+		http.csrf().disable();
 	}
 
 	@Override
@@ -52,4 +49,3 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.authenticationProvider(authenticationProviderServices);
 	}
 }
-
