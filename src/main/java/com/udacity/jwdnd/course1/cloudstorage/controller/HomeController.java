@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.udacity.jwdnd.course1.cloudstorage.entity.FilesUpload;
+import com.udacity.jwdnd.course1.cloudstorage.entity.Notes;
 import com.udacity.jwdnd.course1.cloudstorage.entity.Users;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialsServices;
 import com.udacity.jwdnd.course1.cloudstorage.services.FilesUploadServices;
@@ -32,10 +33,12 @@ public class HomeController {
 
 	@GetMapping(value = {"/home","/"})
 	public ModelAndView index(Authentication authentication, Model model) {
-		String username = (String) authentication.getPrincipal();
-		Users users = usersServices.getByUsername(username);
+		Users users = (Users) authentication.getPrincipal();
 		List<FilesUpload> filesUploads = filesUploadServices.findAllFiles(users.getUserId());
 		model.addAttribute("listFilesUploads", filesUploads);
+		
+		List<Notes> listNotes = notesServices.getAllListNotes(users.getUserId());
+		model.addAttribute("listNotes", listNotes);
 
 		return new ModelAndView("home");
 	}

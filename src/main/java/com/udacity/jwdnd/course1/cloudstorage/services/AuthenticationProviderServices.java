@@ -36,7 +36,7 @@ public class AuthenticationProviderServices implements AuthenticationProvider {
 			String salt = users.getSalt();
 			String hashedPassword = hashService.getHashedValue(password, salt);
 			if (users.getPassword().equals(hashedPassword)) {
-				return new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>());
+				return new UsernamePasswordAuthenticationToken(users, password, new ArrayList<>());
 			}
 		}
 		return null;

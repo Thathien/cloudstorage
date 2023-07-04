@@ -1,7 +1,5 @@
 package com.udacity.jwdnd.course1.cloudstorage.entity;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,15 +10,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Notes {
-	private Integer notesId;
-	private String notesTitle;
-	private String notesDescription;
+	private Integer noteId;
+	private String noteTitle;
+	private String noteDescription;
 	private Integer userId;
 
-	public Notes(String notesTitle, String notesDescription, Integer userId) {
+	public Notes(String noteTitle, String noteDescription, Integer userId) {
 		super();
-		this.notesTitle = notesTitle;
-		this.notesDescription = notesDescription;
+		this.noteTitle = noteTitle;
+		this.noteDescription = noteDescription;
 		this.userId = userId;
 	}
 

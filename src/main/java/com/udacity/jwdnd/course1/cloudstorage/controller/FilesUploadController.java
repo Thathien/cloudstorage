@@ -31,8 +31,7 @@ public class FilesUploadController {
 
 	@PostMapping("/saveFile")
 	public String saveFile(Authentication authentication, MultipartFile fileUpload, Model modal) throws IOException {
-		String username = (String) authentication.getPrincipal();
-		Users users = usersServices.getByUsername(username);
+		Users users = (Users) authentication.getPrincipal();
 		String errorFilesUpload = "";
 
 		if (fileUpload.isEmpty()) {
@@ -60,8 +59,7 @@ public class FilesUploadController {
 	
 	   @GetMapping("/deleteFile")
 		public String deleteFile(@RequestParam("fileId") Integer fileid, Authentication authentication, Model modal) {
-			String username = (String) authentication.getPrincipal();
-			Users users = usersServices.getByUsername(username);
+		   Users users = (Users) authentication.getPrincipal();
 			if (fileid != null) {
 				int results = filesUploadServices.deleteFileById(fileid, users.getUserId());
 				if (results == 0) {
@@ -78,8 +76,7 @@ public class FilesUploadController {
 	   
 	    @GetMapping("/viewFile")
 	    public ResponseEntity<byte[]> handleViewFile(@RequestParam("fileId")Integer fileId, Authentication authentication) {
-			String username = (String) authentication.getPrincipal();
-			Users users = usersServices.getByUsername(username);
+	    	Users users = (Users) authentication.getPrincipal();
 	        FilesUpload file = filesUploadServices.getFileById(fileId, users.getUserId());
 	        HttpHeaders headers = new HttpHeaders();
 	        headers.setContentDispositionFormData("attachment", file.getFileName());
