@@ -25,9 +25,6 @@ public class FilesUploadController {
 
 	@Autowired
 	private FilesUploadServices filesUploadServices;
-	
-	@Autowired
-	private UsersServices usersServices;
 
 	@PostMapping("/saveFile")
 	public String saveFile(Authentication authentication, MultipartFile fileUpload, Model modal) throws IOException {

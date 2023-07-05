@@ -125,7 +125,7 @@
                         </button>
 
                         <div class="table-responsive">
-                            <table class="table table-striped" th:object="${credentials}" id="credentialTable">
+                            <table class="table table-striped" th:object="${listCredentials}" id="credentialTable">
                                 <thead>
                                     <tr>
                                         <th style="width: 20%" scope="col"></th>
@@ -135,15 +135,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <button type="button" class="btn btn-success">Edit</button>
-                                        <a class="btn btn-danger">Delete</a>
-                                    </td>
-                                    <th scope="row">Example Credential URL</th>
-                                    <td>Example Credential Username</td>
-                                    <td>Example Credential Password</td>
-                                </tr>
+			                        <tr th:each="credential : ${listCredentials}">
+			                            <td>
+			                                <button type="button" class="btn btn-success" th:onclick="showCredentialModal([[${credential.credentialId}]])">Edit</button>
+			                                <a h class="btn btn-danger" th:href="@{/deleteCredentials(credentialId=${credential.credentialId})}">Delete</a>
+			                            </td>
+			                            <th th:text="${credential.url}" scope="row">Example Credential URL</th>
+			                            <td th:text="${credential.username}">Example Credential Username</td>
+			                            <td th:text="${credential.password}">Example Credential Password</td>
+			                        </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -158,7 +158,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="POST">
+                                        <form th:action="@{/saveCredentials}" method="POST">
                                             <input type="hidden" name="credentialId" id="credential-id">
                                             <div class="form-group">
                                                 <label for="credential-url" class="col-form-label">URL</label>
@@ -187,26 +187,36 @@
             </div>
         </div>
 
-        <script th:src="@{/js/jquery-slim.min.js}"></script>
-        <script th:src="@{/js/popper.min.js}"></script>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  		<script th:src="@{/js/popper.min.js}"></script>
         <script th:src="@{/js/bootstrap.min.js}"></script>
 
         <!--For opening the note modal-->
         <script type="text/javascript">
             // For opening the note modal
-            function showNoteModal(noteId, noteTitle, noteDescription) {
-                $('#note-id').val(noteId ? noteId : '');
-                $('#note-title').val(noteTitle ? noteTitle : '');
-                $('#note-description').val(noteDescription ? noteDescription : '');
+            function showNoteModal(note) {
+                $('#note-id').val(note?.noteId ? note.noteId : '');
+                $('#note-title').val(note?.noteTitle ? note.noteTitle : '');
+                $('#note-description').val(note?.noteDescription ? note.noteDescription : '');
                 $('#noteModal').modal('show');
             }
 
             // For opening the credentials modal
-            function showCredentialModal(credentialId, url, username, password) {
+            function showCredentialModal(credentialId) {
                 $('#credential-id').val(credentialId ? credentialId : '');
-                $('#credential-url').val(url ? url : '');
-                $('#credential-username').val(username ? username : '');
-                $('#credential-password').val(password ? password : '');
+                $('#credential-form').trigger("reset");
+                if (credentialId) {
+	                $.ajax({
+						type : "GET",
+						url: "/viewCredentials?credentialId=" + credentialId,
+						success: function(credential){
+						    $('#credential-url').val(credential?.url ? credential.url : '');
+	                        $('#credential-username').val(credential?.username ? credential.username : '');
+	                        $('#credential-password').val(credential?.password ? credential.password : '');
+						}
+					});
+				}
                 $('#credentialModal').modal('show');
             }
         </script>
