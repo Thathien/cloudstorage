@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.udacity.jwdnd.course1.cloudstorage.common.CommonUltis;
 import com.udacity.jwdnd.course1.cloudstorage.entity.Users;
 import com.udacity.jwdnd.course1.cloudstorage.services.UsersServices;
@@ -24,7 +26,7 @@ public class ManagementAccountController {
 	}
 
 	@PostMapping("/signup")
-	public String doSignup(Users users, Model model) {
+	public String doSignup(Users users, Model redirectAttributes) {
 		String error = "";
 		if (CommonUltis.isValidString(users.getFirstName()) && CommonUltis.isValidString(users.getLastName())
 				&& CommonUltis.isValidString(users.getPassword()) && CommonUltis.isValidString(users.getUsername())) {
@@ -41,10 +43,11 @@ public class ManagementAccountController {
 		}
 
 		if (!error.isBlank()) {
-			model.addAttribute("errorSignup", error);
+			redirectAttributes.addAttribute("errorSignup", error);
 			return "signup";
 		}
-		return "redirect:/signup?success";
+		redirectAttributes.addAttribute("loginOK", "OK");
+		return "redirect:/login?success";
 	}
 	
 	@GetMapping("/login")
