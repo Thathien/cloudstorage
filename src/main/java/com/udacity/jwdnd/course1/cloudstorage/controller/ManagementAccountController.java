@@ -26,7 +26,7 @@ public class ManagementAccountController {
 	}
 
 	@PostMapping("/signup")
-	public String doSignup(Users users, Model redirectAttributes) {
+	public String doSignup(Users users, Model model, RedirectAttributes redirectAttributes) {
 		String error = "";
 		if (CommonUltis.isValidString(users.getFirstName()) && CommonUltis.isValidString(users.getLastName())
 				&& CommonUltis.isValidString(users.getPassword()) && CommonUltis.isValidString(users.getUsername())) {
@@ -43,11 +43,11 @@ public class ManagementAccountController {
 		}
 
 		if (!error.isBlank()) {
-			redirectAttributes.addAttribute("errorSignup", error);
+			model.addAttribute("errorSignup", error);
 			return "signup";
 		}
-		redirectAttributes.addAttribute("loginOK", "OK");
-		return "redirect:/login?success";
+		redirectAttributes.addFlashAttribute("signupOK", "OK");
+		return "redirect:/login";
 	}
 	
 	@GetMapping("/login")
